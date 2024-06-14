@@ -23,7 +23,7 @@ def frequency_analysis(encrypted_message: str) -> dict:
 
 def plot_frequency_dictionary(frequency_dictionary: dict) -> None:
     '''
-    Plots the frequecny of letters from the encrypted message.
+    Plots the frequecny of letters in the encrypted message.
     '''
 
     frequency_ordered = OrderedDict(sorted(frequency_dictionary.items(), key = lambda item: item[1], reverse = True))
@@ -41,7 +41,6 @@ if __name__ == "__main__":
         encrypted_message = input('Enter encrypted message(.. to exit): ')
         if  encrypted_message == "..":
            break
-        
         frequency_dictionary = frequency_analysis(encrypted_message)
         #print(f"Inputted message: {encrypted_message}")
         #print(f"The frequency dictionary is {frequency_dictionary}")
