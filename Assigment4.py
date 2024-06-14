@@ -34,8 +34,6 @@ def plot_frequency_dictionary(frequency_dictionary: dict) -> None:
     plt.show()
     return
 
-
-    return
 if __name__ == "__main__":
     while True:
         encrypted_message = input('Enter encrypted message(.. to exit): ')
