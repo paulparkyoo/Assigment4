@@ -13,8 +13,9 @@ def frequency_analysis(encrypted_message: str) -> dict:
     '''
     Gets the frequency of letters in the encrypted message and assigns it to a dictionary.
     '''
+
     frequency_dictionary = {letter: 0 for letter in ENGLISH_FREQUENCY_DICTIONARY}
-    encrypted_message = ''.join(filter(str.isalpha, encrypted_message.upper()))
+    encrypted_message = format_encrypted_message(encrypted_message, "2")
     text_length = len(encrypted_message)
     for character in encrypted_message:
         frequency_dictionary[character] += 1 / text_length
@@ -23,7 +24,8 @@ def frequency_analysis(encrypted_message: str) -> dict:
 
 def plot_frequency_dictionary(frequency_dictionary: dict) -> None:
     '''
-    Plots the frequecny of letters in the encrypted message.
+    Plots the frequecny of letters in the encrypted messag and returns ordered frequency dictionary.
+    The plot pop up must be closed for the code to continue.
     '''
 
     frequency_ordered = OrderedDict(sorted(frequency_dictionary.items(), key = lambda item: item[1], reverse = True))
@@ -32,14 +34,56 @@ def plot_frequency_dictionary(frequency_dictionary: dict) -> None:
     plt.bar(letters, frequency, color='red')
     plt.title("Frequency Analysis")
     plt.show()
-    return
+
+    return frequency_ordered
+
+def format_encrypted_message(encrypted_message: str, option: str) -> str:
+    '''
+    Fomrats the encrypted message for a given option.
+
+    Option 1 will uppercase the encrypted message.
+
+    Option 2 will uppercase the encrypted message and remove the spaces.
+    '''
+
+    if(option == '1'):
+        return encrypted_message.upper()
+    
+    if(option == "2"):
+        return ''.join(filter(str.isalpha, encrypted_message.upper()))
+
+    return encrypted_message
+
+def auto_decrypt(encrypted_message: str, frequency_ordered: dict) -> str:
+    '''
+    Does a single pass over of the string replacing the letters using a dictionary 
+    matching the highest frequency letters in message and highest frequency letters in the englis language. 
+    '''
+
+    encrypted_message = format_encrypted_message(encrypted_message, "1")
+    decrypted_message = ""
+    decrypt_key_dictionary = frequency_ordered
+    #print(decrypt_key_dictionary)
+    for index, key in enumerate(decrypt_key_dictionary.keys()):
+        decrypt_key_dictionary[key] = ENGLISH_FREQUENCY_ORDERED_LIST[index]
+    #print(decrypt_key_dictionary)
+    for character in encrypted_message:
+        if not character.isalpha():
+            decrypted_message += character
+            continue
+        decrypted_message += decrypt_key_dictionary[character]
+
+    return decrypted_message
+
 
 if __name__ == "__main__":
     while True:
-        encrypted_message = input('Enter encrypted message(.. to exit): ')
+        encrypted_message = input('Enter encrypted message(Enter .. to exit): ')
         if  encrypted_message == "..":
            break
         frequency_dictionary = frequency_analysis(encrypted_message)
         #print(f"Inputted message: {encrypted_message}")
         #print(f"The frequency dictionary is {frequency_dictionary}")
-        plot_frequency_dictionary(frequency_dictionary)
+        frequency_ordered = plot_frequency_dictionary(frequency_dictionary)
+        decrypted_message = auto_decrypt(encrypted_message, frequency_ordered)
+        print(f"The decrypted message is:\n{decrypted_message}")
