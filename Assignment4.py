@@ -111,26 +111,18 @@ if __name__ == "__main__":
         #print(f"The frequency dictionary is {frequency_dictionary}")
         frequency_ordered = plot_frequency_dictionary(frequency_dictionary)
         decrypted_message = auto_decrypt(encrypted_message, frequency_ordered)
+        print(f"Inputted message: \n{encrypted_message}")
         print(f"The decrypted message is:\n{decrypted_message}")
         cipher_letter = input('Enter cipher letter to replace(Enter .. to exit): ')
         if cipher_letter == "..":
             break
         while cipher_letter != "..":
             new_letter= input('Enter new letter to replace with:')
-            decrypted_message=replace_letter(encrypted_message, cipher_letter, new_letter)
+            decrypted_message=replace_letter(encrypted_message, cipher_letter.upper(), new_letter.upper())
+            print(f"Inputted message: \n{encrypted_message}")
             print(f"The decrypted message is:\n{decrypted_message}")
             cipher_letter = input('\nEnter cipher letter to replace(Enter .. to exit): ')
         
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
 
 
 
